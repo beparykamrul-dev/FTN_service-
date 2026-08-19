@@ -1,0 +1,92 @@
+version: 1
+platform: FTN
+mode: unified-control-plane
+backbone:
+  local_fiber_backbone: false
+  topology: internet_wan_only
+  policy: do_not_depend_on_local_fiber
+  control_plane: global
+
+control_plane:
+  aspnet_core:
+    role: portal-control-plane
+    enabled: true
+  go_backend:
+    role: service-data-plane
+    enabled: true
+    frontend_endpoint: "100.52.86.20"
+    public_endpoint: "138.252.113.2"
+    dns_name: "ns2.familytimenet.com"
+
+server_fleet:
+  target_initial_servers: 30
+  logical_cluster: FTN-GLOBAL
+  centralized_control: true
+  centralized_tracking: true
+  centralized_telemetry: true
+
+postgresql:
+  role: central_source_of_truth
+  enabled: true
+  pgbouncer: true
+  migration_policy: forward_only
+
+# Credentials, API tokens, private keys and DNS secrets must never be committed here.
+# Provider adapters are configuration-driven and must obtain secrets from the runtime secret store.
+dns:
+  portal: true
+  mesh: true
+  anycast: true
+  authoritative:
+    - id: powerdns-enterprise
+      type: powerdns-enterprise
+      endpoints:
+        - "100.52.87.3"
+        - "138.252.113.19"
+      hostname: "ns1.familytimenet.com"
+      enabled: true
+    - id: technitium-enterprise
+      type: technitium
+      enabled: true
+    - id: coredns
+      type: coredns
+      enabled: true
+    - id: unbound
+      type: unbound
+      enabled: true
+    - id: dnsdist
+      type: dnsdist
+      enabled: true
+    - id: godns
+      type: godns
+      enabled: true
+  external:
+    - id: dnspod-tencent
+      type: dnspod
+      provider: tencent-cloud
+      enabled: true
+    - id: cloudflare-dns
+      type: cloudflare-dns
+      enabled: true
+    - id: akamai-dns
+      type: akamai-dns
+      enabled: true
+
+cache_cdn:
+  - id: cloudflare
+    enabled: true
+  - id: netflix
+    enabled: true
+  - id: fastly
+    enabled: true
+
+observability:
+  central_tracking: true
+  dns_health: true
+  authoritative_health: true
+  recursive_health: true
+  anycast_health: true
+  propagation_checks: true
+  latency_checks: true
+  packet_loss_checks: true
+  map_view: true
