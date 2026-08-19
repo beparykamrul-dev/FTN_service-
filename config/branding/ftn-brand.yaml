@@ -1,0 +1,34 @@
+brand:
+  name: Family Time Network
+  product: FTNVPN
+  logo_source: user-supplied FTN orbital emblem
+  logo_usage: canonical
+  watermark: true
+  watermark_opacity: 0.08
+  preserve_aspect_ratio: true
+  do_not_distort: true
+
+ui:
+  surfaces:
+    - web-control-panel
+    - android
+    - android-tv
+    - windows
+    - linux
+    - macos
+  logo_positions:
+    - app-launcher
+    - navigation-header
+    - connection-card
+    - login
+    - splash
+  background:
+    mode: subtle-watermark
+    avoid_full-contrast-logo-behind-text: true
+
+network:
+  product_name: FTNVPN
+  core_router_name: FTN Core Router
+  control_plane: FTN Unified Control Plane
+  telemetry: centralized
+  tracking: centralized
