@@ -1,0 +1,46 @@
+# FTN new server inventory / provisioning intent.
+# This is declarative configuration; it does not contain credentials.
+# Apply through the FTN approval-controlled infrastructure adapter.
+
+servers:
+  - id: ftn-srv-100
+    host_ip: 100.52.88.2
+    role: compute-edge
+    containers:
+      - id: 100
+        ip_range: 100.52.88.3-100.52.88.10
+        network_mode: routed
+    monitoring:
+      enabled: true
+      map: true
+
+  - id: ftn-srv-101
+    host_ip: 100.52.89.2
+    role: compute-edge
+    containers:
+      - id: 100
+        ip_range: 100.52.89.3-100.52.89.10
+        network_mode: routed
+    monitoring:
+      enabled: true
+      map: true
+
+existing_dns:
+  ns1:
+    hostname: ns1.familytimenet.com
+    addresses:
+      - 100.52.87.3
+      - 138.252.113.19
+  ns2:
+    hostname: ns2.familytimenet.com
+    addresses:
+      - 100.52.86.20
+      - 138.252.113.20
+
+provisioning_policy:
+  approval_required: true
+  local_fiber_backbone_required: false
+  register_in_central_database: true
+  enable_telemetry: true
+  enable_tracking: true
+  enable_map_node: true
