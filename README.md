@@ -2,26 +2,29 @@
 
 Production-oriented service foundation for Family Time Network (FTN).
 
-## Frontier Control Plane
-
-A unified registry and telemetry foundation for real, experimental, simulation, theoretical, and hypothetical frontier-research modules.
-
-### Current modules
+## Completed foundation
 
 - 001 — Frontier Registry & Unified Telemetry
 - 002 — Physics Data Ingestion & Source Adapter Engine
-
-### Design rules
-
-- Explicit classification of scientific claims
-- Source adapters isolated behind interfaces
-- Deterministic telemetry records
-- Approval-first state-changing controls
-- Auditability for control operations
-- Hypothetical physics is never presented as production transport
+- 003 — Central Telemetry Bus, Metrics/Event retention and API tracking
+- Central database contract with PostgreSQL production target
+- Central audit/tracking records
+- Data-source health schema
 
 ## HTTP
 
 - `GET /healthz`
 - `GET /readyz`
 - `GET /api/v1/frontier/modules`
+- `GET /api/v1/telemetry/events`
+- `GET /api/v1/tracking/events`
+
+## Data plane
+
+`migrations/001_core.sql` defines the central PostgreSQL schema for modules, telemetry, tracking and data sources. `docker-compose.yml` provides the database service for deployment.
+
+The domain layer is kept behind interfaces so another database implementation can be attached without rewriting the service contracts.
+
+## Governance
+
+State-changing automation must remain approval-first and auditable. Hypothetical physics concepts are classified as research/simulation rather than presented as real communication transports.
