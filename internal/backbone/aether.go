@@ -5,15 +5,25 @@ import (
     "time"
 )
 
-// Aether-Core is the FTN control-plane abstraction for secure transport,
-// telemetry and policy orchestration. It is not a new kernel or cryptographic
-// protocol; transport implementations remain replaceable adapters.
+// Aether-Core is the FTN backbone orchestration layer. It is transport-agnostic:
+// production transports, research profiles, and future adapters can coexist
+// without making Aether-Core itself a new cryptographic protocol or kernel.
 type Transport string
 
 const (
     WireGuard Transport = "wireguard"
-    WGQ Transport = "wgq-experimental"
     AmneziaWG Transport = "amneziawg"
+    QUIC Transport = "quic"
+    TLS Transport = "tls"
+    IPsec Transport = "ipsec"
+    WGQ Transport = "wgq-experimental"
+    PostQuantum Transport = "post-quantum-experimental"
+    QuantumResearch Transport = "quantum-research"
+    PhotonicResearch Transport = "photonic-research"
+    GRE Transport = "gre"
+    VXLAN Transport = "vxlan"
+    DNSMesh Transport = "dns-mesh"
+    Anycast Transport = "anycast"
 )
 
 type State string
@@ -25,12 +35,29 @@ const (
     Unknown State = "unknown"
 )
 
+type Capability string
+
+const (
+    Routing Capability = "routing"
+    Encryption Capability = "encryption"
+    Overlay Capability = "overlay"
+    DNS Capability = "dns"
+    Telemetry Capability = "telemetry"
+    Experimental Capability = "experimental"
+)
+
 type Link struct {
     ID string `json:"id"`
     Name string `json:"name"`
     Transport Transport `json:"transport"`
     State State `json:"state"`
+    Capabilities []Capability `json:"capabilities,omitempty"`
     Endpoint string `json:"endpoint,omitempty"`
+    Region string `json:"region,omitempty"`
+    LatencyMS float64 `json:"latency_ms,omitempty"`
+    PacketLoss float64 `json:"packet_loss,omitempty"`
+    RXBytes uint64 `json:"rx_bytes,omitempty"`
+    TXBytes uint64 `json:"tx_bytes,omitempty"`
     LastChecked time.Time `json:"last_checked"`
 }
 
