@@ -1,0 +1,15 @@
+display:
+  auto_adjust: true
+  breakpoints:
+    ultra_wide: 2560
+    desktop: 1440
+    laptop: 1024
+    tablet: 768
+    mobile: 480
+  map:
+    responsive: true
+    compact_labels_on_small_viewport: true
+  branding:
+    logo: FTN
+    watermark: true
+    preserve_aspect_ratio: true
