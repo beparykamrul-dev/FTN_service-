@@ -1,0 +1,50 @@
+aether_core:
+  mode: centralized-orchestration
+  local_fiber_required: false
+
+mesh:
+  transports:
+    wireguard:
+      class: production
+      enabled: true
+    amneziawg:
+      class: production
+      enabled: true
+    wgq:
+      class: experimental
+      enabled: false
+
+routing:
+  bgp:
+    adapter: go-bgp
+    telemetry: true
+    dynamic_path_selection: true
+    changes_require_approval: true
+
+firewall:
+  dataplane:
+    ebpf: supported
+    xdp: supported
+  policy_mode: staged
+  rollback_on_health_regression: true
+
+identity:
+  mtls: required
+  private_pki: true
+  private_keys_in_central_db: false
+
+pqc:
+  enabled: true
+  mode: crypto-agility
+  default: hybrid-when-supported
+  require_reviewed_standard_implementation: true
+
+tracking:
+  centralized: true
+  events:
+    - peer_health
+    - route_decision
+    - tunnel_state
+    - firewall_policy_version
+    - certificate_status
+    - pqc_profile
