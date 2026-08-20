@@ -1,0 +1,36 @@
+pki:
+  mode: private
+  mtls: required_for_internal_services
+  root_ca: offline
+  intermediate_ca: online
+  certificate_private_keys: never_store_in_database
+  short_lived_certificates: true
+  renewal_window_hours: 168
+  revocation:
+    ocsp: enabled
+    ocsp_stapling: preferred
+    crl: enabled
+
+network:
+  bgp:
+    adapter: go-bgp
+    changes_require_approval: true
+  flow_analysis:
+    adapters:
+      - rwfilter
+      - pysilk
+    source_protocols:
+      - netflow
+      - ipfix
+    state_changes: false
+
+tracking:
+  centralized: true
+  record:
+    - certificate_issuance
+    - certificate_renewal
+    - certificate_revocation
+    - ocsp_status
+    - crl_refresh
+    - bgp_policy_decision
+    - flow_analysis_job
