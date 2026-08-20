@@ -1,0 +1,46 @@
+edge_to_core:
+  deny_by_default: true
+  mtls_required: true
+  management_plane_isolated: true
+  signed_configuration: true
+  health_gated_promotion: true
+  rollback_on_regression: true
+
+hardware_root_of_trust:
+  tpm2:
+    enabled: true
+    measured_boot: true
+    device_attestation: true
+  hsm:
+    enabled: true
+    preferred_for_ca_signing: true
+
+service_discovery:
+  consul:
+    enabled: true
+    authoritative_inventory: centralized_database
+    health_feed_to_aether: true
+
+geoip:
+  adapters:
+    - p2location
+    - db-ip-free
+  precision: region_country
+  record_dataset_version: true
+
+lua:
+  enabled: true
+  sandbox: true
+  network_access: false
+  filesystem_access: false
+  resource_limits: true
+  approval_bypass: false
+
+ai_traffic:
+  classification: enabled
+  anomaly_scoring: enabled
+  automatic_state_change: policy_gated
+  concealment_or_bypass: prohibited
+
+tracking:
+  centralized: true
