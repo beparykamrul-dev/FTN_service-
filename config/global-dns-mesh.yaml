@@ -1,0 +1,55 @@
+apiVersion: ftn.familytimenet/v1
+kind: GlobalDNSMesh
+metadata:
+  name: ftn-global-dns
+spec:
+  authoritative:
+    primary: ns1.familytimenet.com
+    secondary: ns2.familytimenet.com
+    existing:
+      - 100.52.87.3
+      - 100.52.86.20
+    extensible: true
+  providers:
+    - powerdns
+    - technitium
+    - coredns
+    - unbound
+    - dnsdist
+    - godns
+    - hickory
+    - cloudflare
+    - dnspod
+    - akamai
+  routing:
+    mode: latency_and_health
+    anycast: policy_controlled
+    local_fiber_dependency: false
+  edge:
+    proxy_adapters:
+      - envoy
+      - traefik
+      - nginx
+      - haproxy
+    filtering:
+      ebpf_xdp: supported
+      fastnetmon: supported
+  backbone:
+    controller: aether-core
+    transports:
+      - wireguard
+      - amneziawg
+      - quic
+      - ipsec
+    routing:
+      bgp_adapter: gobgp
+      frr: supported
+      srv6: supported
+  telemetry:
+    flow_store: clickhouse
+    event_store: postgresql
+    metrics: prometheus
+  safety:
+    route_changes_require_approval: true
+    dns_changes_require_validation: true
+    automatic_rollback: true
